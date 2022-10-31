@@ -23,21 +23,50 @@ filter: ''
       contacts: prevState.contacts.filter(contact => contact.id !== contactId)}))
   }
 
-  formSubmitHandler = (contact) => {
-    contact = {
-      id: nanoid(),
-     ...contact
-    }
+  // formSubmitHandler = (contact) => {
+ 
+  //   contact = {
+  //     id: nanoid(),
+  //     ...contact
+  //   }
+ 
+  //   this.setState( ({ contacts }) => ({ contacts: [contact, ...contacts] })) 
+  // }
     
- this.setState(({contacts}) => ({contacts: [contact, ...contacts]}))
-}
+formSubmitHandler = ({ name, number }) => {
+    const normalizedFilter = name.toLowerCase();
+    
+    const checkByName = this.state.contacts.find(contact => contact.name.toLowerCase() === normalizedFilter);
+    if (checkByName) {
+      alert(`${name} is already in contacts`);
+    } else {
+      const contact = {
+        id: nanoid(),
+        name, number,
+        completed: false,
+      };
+    
+      this.setState(({ contacts }) => ({
+        contacts: [contact, ...contacts],
+      }));
+    };
+  }
 
   changeFilter = (e) => {
 this.setState({filter: e.currentTarget.value})
   }
-  
+
+  getVisibleContacts = () => {
+    const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+
+    return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter))
+  }
+
 render() {
-    const {contacts, filter} = this.state
+  const { filter } = this.state;
+  const visibleContacts = this.getVisibleContacts();
+
     return (
       
       <div>
@@ -46,7 +75,7 @@ render() {
         <ContactsWrapper title='contacts' >
            <Filter value={filter} onChange={this.changeFilter}></Filter>            
  
-          <Contacts contacts={contacts} onDeleteContacts={this.deleteContacts}></Contacts>
+          <Contacts contacts={visibleContacts} onDeleteContacts={this.deleteContacts}></Contacts>
         </ContactsWrapper>
       </div>
   
