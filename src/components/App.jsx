@@ -4,7 +4,7 @@ import { ContactsWrapper } from './Contacts/ContactsWrapper';
 import { Contacts } from './Contacts/Contacts';
 // import { Filter } from './Filter/Filter';
 import { nanoid } from 'nanoid'
-import { ThemeConsumer } from 'styled-components';
+
 
 class App extends Component {
 state = {
