@@ -6,7 +6,7 @@ export const Filter = () => {
     <input
             type="text"
             name="filter"
-        
+        // value ={filter}
 />
     </>
    
