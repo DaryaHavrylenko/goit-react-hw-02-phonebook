@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Form from './Form/Form';
 import { ContactsWrapper } from './Contacts/ContactsWrapper';
 import { Contacts } from './Contacts/Contacts';
-// import { Filter } from './Filter/Filter';
+import { Filter } from './Filter/Filter';
 import { nanoid } from 'nanoid'
+
 
 
 class App extends Component {
@@ -22,14 +23,13 @@ filter: ''
       contacts: prevState.contacts.filter(contact => contact.id !== contactId)}))
   }
 
-  formSubmitHandler = (name, number) => {
-    const contact = {
+  formSubmitHandler = (contact) => {
+    contact = {
       id: nanoid(),
-      name,
-      number
+     ...contact
     }
     
- this.setState(({contacts}) => ({contact: [contact, ...contacts]}))
+ this.setState(({contacts}) => ({contacts: [contact, ...contacts]}))
 }
 
   changeFilter = (e) => {
@@ -44,15 +44,7 @@ render() {
         <h1>Phonebook</h1>
         <Form onSubmit={this.formSubmitHandler}></Form>  
         <ContactsWrapper title='contacts' >
-                        <label>
-            Find contacts by name
-            <input
-            type="text"
-            name="filter"
-              value={filter}
-              onChange={this.changeFilter}
-/>
-      </label>
+           <Filter value={filter} onChange={this.changeFilter}></Filter>            
  
           <Contacts contacts={contacts} onDeleteContacts={this.deleteContacts}></Contacts>
         </ContactsWrapper>
