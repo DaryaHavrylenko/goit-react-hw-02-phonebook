@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Section } from './Section/Section';
 import Form from './Form/Form';
 import { ContactsWrapper } from './Contacts/ContactsWrapper';
 import { Contacts } from './Contacts/Contacts';
 import { Filter } from './Filter/Filter';
 import { nanoid } from 'nanoid'
-
+import { ThemeProvider } from 'styled-components';
+import { theme } from './ThemeProvider/theme';
 
 
 class App extends Component {
@@ -24,13 +26,11 @@ filter: ''
   }
 
   // formSubmitHandler = (contact) => {
- 
-  //   contact = {
+ //   contact = {
   //     id: nanoid(),
   //     ...contact
   //   }
- 
-  //   this.setState( ({ contacts }) => ({ contacts: [contact, ...contacts] })) 
+ //   this.setState( ({ contacts }) => ({ contacts: [contact, ...contacts] })) 
   // }
     
 formSubmitHandler = ({ name, number }) => {
@@ -69,15 +69,20 @@ render() {
 
     return (
       
-      <div>
-        <h1>Phonebook</h1>
-        <Form onSubmit={this.formSubmitHandler}></Form>  
-        <ContactsWrapper title='contacts' >
+      <>
+        <ThemeProvider theme={theme}>
+          <Section title='Phonebook'>
+         <Form onSubmit={this.formSubmitHandler}></Form>
+        </Section>
+       
+        <ContactsWrapper title='Contacts' >
            <Filter value={filter} onChange={this.changeFilter}></Filter>            
  
           <Contacts contacts={visibleContacts} onDeleteContacts={this.deleteContacts}></Contacts>
         </ContactsWrapper>
-      </div>
+        </ThemeProvider>
+    
+      </>
   
   );
 } 
